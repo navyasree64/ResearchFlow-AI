@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header">
+    <h2>Analyze <em>New Research</em></h2>
+</header>
+
+<section class="analyze-section">
+    <form id="analyze-form" class="two-column-form">
+        <div class="form-group">
+            <label for="topic">Research Topic <span style="font-weight:400;opacity:0.6;">(optional — auto-detected from paper)</span></label>
+            <input type="text" id="topic" name="topic" placeholder="e.g. Gut microbiome in Alzheimer's disease">
+        </div>
+        <div class="form-group">
+            <label for="urls">Research Paper URLs — one per line</label>
+            <textarea id="urls" name="urls" rows="4" placeholder="https://arxiv.org/abs/...&#10;https://pubmed.ncbi.nlm.nih.gov/...&#10;https://doi.org/..." required></textarea>
+            <small id="url-hint" style="display:block;margin-top:6px;opacity:0.6;font-size:0.82em;">
+                ✅ Accepted: arXiv, PubMed, IEEE, ACM, Springer, Nature, ScienceDirect, bioRxiv, medRxiv, ResearchGate, DOI links, and more academic publishers.
+            </small>
+            <small id="url-warning" style="display:none;margin-top:4px;color:#f87171;font-size:0.82em;"></small>
+        </div>
+        <div class="form-actions">
+            <button type="submit" id="analyze-btn" class="btn-primary">Start Analysis &rarr;</button>
+        </div>
+    </form>
+</section>
+
+<!-- Loading State — per-URL progress tracker -->
+<div id="loading-state" class="hidden">
+    <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-top:16px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div class="spinner" style="width:20px;height:20px;margin:0;"></div>
+            <span id="progress-stage" style="font-size:0.92em;font-weight:500;">Starting analysis…</span>
+            <span id="progress-counter" style="margin-left:auto;font-size:0.82em;opacity:0.55;"></span>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:6px;height:6px;overflow:hidden;margin-bottom:16px;">
+            <div id="progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:6px;transition:width 0.4s ease;"></div>
+        </div>
+        <div id="progress-log" style="font-size:0.82em;line-height:1.9;max-height:180px;overflow-y:auto;"></div>
+    </div>
+</div>
+
+<!-- Results Area -->
+<div id="results-area" class="hidden">
+    <header class="page-header mt-8">
+        <h2>Evolving Summary &mdash; <em id="result-topic"></em></h2>
+    </header>
+
+    <div class="result-grid">
+        <!-- Main Summary -->
+        <div class="summary-box full-width">
+            <div class="box-label">Paper Summary</div>
+            <div id="res-summary" class="serif-text"></div>
+        </div>
+
+        <div class="column">
+            <!-- Novel Contributions -->
+            <div class="section-label">Novel Contributions</div>
+            <div id="res-novel" class="list-container"></div>
+            
+            <!-- Open Questions -->
+            <div class="section-label mt-6">Open Questions</div>
+            <div id="res-questions" class="list-container"></div>
+        </div>
+
+        <div class="column">
+            <!-- Memory Comparison -->
+            <div class="section-label">Memory Comparison (Conflicts / Agreements)</div>
+            <div class="summary-box comparison-card">
+                <div id="res-comparison"></div>
+            </div>
+
+            <!-- Field Trajectory -->
+            <div class="section-label mt-6">Field Trajectory</div>
+            <div class="summary-box trajectory-card">
+                <div id="res-trajectory"></div>
+            </div>
+            
+            <!-- Key Insights (Core Findings) -->
+            <div class="section-label mt-6">Key Insights</div>
+            <div id="res-insights" class="list-container"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

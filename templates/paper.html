@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header">
+    <h2>Paper <em>Analysis</em></h2>
+    <div style="margin-top: 0.5rem;">
+        <a href="{{ url_for('memento_view') }}" class="card-link">&larr; Back to Database</a>
+    </div>
+</header>
+
+<div class="result-grid">
+    <div class="summary-box full-width" style="border-left-color: var(--text-main);">
+        <div class="box-label">Title</div>
+        <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main);">{{ paper.title }}</h3>
+        
+        <div class="card-meta" style="margin-bottom: 1.5rem; font-size: 0.8rem;">
+            {% if paper.authors %}
+            <span><strong>Authors:</strong> {{ paper.authors | join(', ') }}</span><br>
+            {% endif %}
+            <span><strong>Published:</strong> {{ paper.publication_date or 'Unknown' }}</span>
+            <span class="meta-divider">&bull;</span>
+            <span><strong>Journal:</strong> {{ paper.journal or 'Unknown' }}</span>
+            {% if paper.doi %}
+            <span class="meta-divider">&bull;</span>
+            <span><strong>DOI:</strong> {{ paper.doi }}</span>
+            {% endif %}
+            <br>
+            <a href="{{ paper.url }}" target="_blank" class="card-link" style="display: inline-block; margin-top: 0.5rem;">View Original Paper &nearr;</a>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="section-label">Abstract</div>
+        <div class="summary-box" style="margin-bottom: 2rem;">
+            <p style="font-size: 0.95rem;">{{ paper.abstract }}</p>
+        </div>
+
+        <div class="section-label">Full Summary</div>
+        <div class="summary-box">
+            <div class="serif-text">{{ paper.full_summary }}</div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="section-label">Core Findings</div>
+        <div id="res-insights" class="list-container" style="margin-bottom: 2rem;">
+            {% for finding in paper.core_findings %}
+            <div class="finding-pill"><span class="pill-icon">&rarr;</span><div>{{ finding }}</div></div>
+            {% endfor %}
+        </div>
+
+        <div class="section-label">Methodology</div>
+        <div class="summary-box" style="margin-bottom: 2rem; border-left-color: var(--text-muted);">
+            <p style="font-size: 0.95rem;">{{ paper.methodology }}</p>
+        </div>
+
+        {% if paper.limitations %}
+        <div class="section-label">Limitations</div>
+        <div class="list-container" style="margin-bottom: 2rem;">
+            {% for limit in paper.limitations %}
+            <div class="finding-pill"><span class="pill-icon question">!</span><div>{{ limit }}</div></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if paper.future_work %}
+        <div class="section-label">Future Work</div>
+        <div class="list-container">
+            {% for fw in paper.future_work %}
+            <div class="finding-pill"><span class="pill-icon" style="color: var(--text-main);">&rsaquo;</span><div>{{ fw }}</div></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

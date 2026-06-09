@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResearchFlow AI</title>
+    <!-- Fonts for Academic Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🔬</div>
+                <div class="brand-text">
+                    <h1>ResearchFlow</h1>
+                    <span>/ AI</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-label">Navigation</div>
+                <a href="{{ url_for('index') }}" class="nav-item {% if request.endpoint == 'index' %}active{% endif %}">Analyze Research</a>
+                <a href="{{ url_for('memento_view') }}" class="nav-item {% if request.endpoint == 'memento_view' or request.endpoint == 'view_paper' %}active{% endif %}">Memento Database</a>
+                <a href="{{ url_for('summaries_view') }}" class="nav-item {% if request.endpoint == 'summaries_view' or request.endpoint == 'view_summary' %}active{% endif %}">Past Analyses</a>
+                <a href="{{ url_for('chat_page') }}" class="nav-item {% if request.endpoint == 'chat_page' %}active{% endif %}">💬 AI Assistant</a>
+            </nav>
+
+            <div class="memento-card">
+                <div class="nav-label">Memento Memory</div>
+                <div class="metric">
+                    <span class="metric-value">{{ memento_count }}</span>
+                    <span class="metric-label">Papers Stored</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

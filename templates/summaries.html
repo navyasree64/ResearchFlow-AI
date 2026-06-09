@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header">
+    <h2>Past <em>Analyses</em></h2>
+</header>
+
+<div class="memento-grid">
+    {% for summary in summaries %}
+    <div class="paper-card">
+        <div class="card-meta">
+            <span>{{ summary.created_at.split(' ')[0] if summary.created_at else 'Unknown Date' }}</span>
+            <span class="meta-divider">&bull;</span>
+            <span>+{{ summary.new_papers_count }} papers</span>
+        </div>
+        <h3 class="card-title">{{ summary.topic }}</h3>
+        <p class="card-summary">{{ summary.summary | truncate(150) }}</p>
+        
+        {% if summary.novel_contributions %}
+        <div class="card-tags">
+            {% for finding in summary.novel_contributions[:2] %}
+            <span class="tag">{{ finding | truncate(40) }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="{{ url_for('view_summary', summary_id=summary.id) }}" class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; text-decoration: none;">View Synthesis &rarr;</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No past analyses saved yet.</p>
+        <a href="{{ url_for('index') }}" class="btn-secondary">Run an Analysis</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

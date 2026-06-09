@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header">
+    <h2>Evolving Summary &mdash; <em>{{ summary.topic }}</em></h2>
+    <div style="margin-top: 0.5rem;">
+        <a href="{{ url_for('summaries_view') }}" class="card-link">&larr; Back to Past Analyses</a>
+    </div>
+</header>
+
+<div class="result-grid">
+    <!-- Main Summary -->
+    <div class="summary-box full-width">
+        <div class="box-label">Paper Summary</div>
+        <div class="serif-text"><p>{{ summary.summary }}</p></div>
+    </div>
+
+    <div class="column">
+        <!-- Novel Contributions -->
+        <div class="section-label">Novel Contributions</div>
+        <div class="list-container">
+            {% for c in summary.novel_contributions %}
+            <div class="finding-pill"><span class="pill-icon">&rarr;</span><div>{{ c }}</div></div>
+            {% endfor %}
+        </div>
+        
+        <!-- Open Questions -->
+        <div class="section-label mt-6">Open Questions</div>
+        <div class="list-container">
+            {% for q in summary.open_questions %}
+            <div class="finding-pill"><span class="pill-icon question">?</span><div>{{ q }}</div></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="column">
+        <!-- Memory Comparison -->
+        <div class="section-label">Memory Comparison (Conflicts / Agreements)</div>
+        <div class="summary-box comparison-card">
+            <div><p>{{ summary.conflicts_or_agreements }}</p></div>
+        </div>
+
+        <!-- Field Trajectory -->
+        <div class="section-label mt-6">Field Trajectory</div>
+        <div class="summary-box trajectory-card">
+            <div><p>{{ summary.field_trajectory }}</p></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
