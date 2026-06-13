@@ -38,28 +38,8 @@ NEW RESEARCH:
 {new_research}
 """
 
-GEMINI_MODEL_CANDIDATES = [
-    "gemini-2.5-flash-lite",
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
-    "gemini-2.0-flash-lite",
-    "gemini-1.5-flash",
-    "gemini-1.5-flash-latest",
-    "gemini-1.5-pro",
-    "gemini-1.0-pro",
-    "gemini-pro",
-]
-
-def find_working_gemini_model() -> str:
-    """Find the best available Gemini model by checking against GEMINI_MODEL_CANDIDATES priority list."""
-    try:
-        available_models = {m.name.replace("models/", "") for m in genai.list_models()}
-        for candidate in GEMINI_MODEL_CANDIDATES:
-            if candidate in available_models:
-                return candidate
-    except Exception:
-        pass
-    return GEMINI_MODEL_CANDIDATES[0]  # fallback to top priority
+# Default model — avoids slow genai.list_models() call at startup
+DEFAULT_GEMINI_MODEL = "gemini-2.0-flash"
 
 class KnowledgeSynthesizer:
     def __init__(self):
@@ -67,8 +47,7 @@ class KnowledgeSynthesizer:
         self.ready = bool(api_key and api_key != "your_gemini_api_key_here")
         if self.ready:
             genai.configure(api_key=api_key)
-            model_name = find_working_gemini_model()
-            self.model = genai.GenerativeModel(model_name)
+            self.model = genai.GenerativeModel(DEFAULT_GEMINI_MODEL)
         else:
             self.model = None
 

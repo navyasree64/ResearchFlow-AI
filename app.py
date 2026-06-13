@@ -21,36 +21,12 @@ extractor = InsightExtractor()
 memento = MementoDB()
 synthesizer = KnowledgeSynthesizer()
 
-# Initialize Gemini AI for chatbot using same model selection as extractor
+# Initialize Gemini AI for chatbot
 gemini_api_key = os.getenv("GEMINI_API_KEY")
 if gemini_api_key:
     genai.configure(api_key=gemini_api_key)
-    
-    # Use the same model selection logic as the extractor
-    GEMINI_MODEL_CANDIDATES = [
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-flash", 
-        "gemini-2.0-flash",
-        "gemini-2.0-flash-lite",
-        "gemini-1.5-flash",
-        "gemini-1.5-flash-latest",
-        "gemini-1.5-pro",
-        "gemini-1.0-pro",
-        "gemini-pro",
-    ]
-    
-    def find_working_gemini_model() -> str:
-        """Pick the best available Gemini model from GEMINI_MODEL_CANDIDATES."""
-        try:
-            available_models = {m.name.replace("models/", "") for m in genai.list_models()}
-            for candidate in GEMINI_MODEL_CANDIDATES:
-                if candidate in available_models:
-                    return candidate
-        except Exception:
-            pass
-        return GEMINI_MODEL_CANDIDATES[0]
-    
-    model_name = find_working_gemini_model()
+    # Use a direct model name to avoid slow genai.list_models() call at startup
+    model_name = "gemini-2.0-flash"
     chat_model = genai.GenerativeModel(model_name)
     print(f"Chatbot using model: {model_name}")
 else:

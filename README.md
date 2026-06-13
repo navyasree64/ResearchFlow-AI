@@ -40,7 +40,7 @@ An intelligent research paper analysis and management system powered by AI. Rese
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/navyasree64/ResearchFlow-AI.git
+git clone https://github.com/sarvani10/ResearchFlow-AI.git
 cd ResearchFlow-AI
 ```
 
@@ -207,9 +207,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: [madalanavyasree@gmail.com](mailto:madalanavyasree@gmail.com)
-- 🐛 Issues: [GitHub Issues](https://github.com/navyasree64/ResearchFlow-AI/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/navyasree64/ResearchFlow-AI/discussions)
+- 📧 Email: [your-email@example.com]
+- 🐛 Issues: [GitHub Issues](https://github.com/sarvani10/ResearchFlow-AI/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/sarvani10/ResearchFlow-AI/discussions)
 
 ---
 
